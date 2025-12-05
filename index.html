@@ -1,308 +1,159 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hu">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="dark" />
-  <title>Gergo Emmert — Portfólió</title>
-  <meta name="description" content="Modern, letisztult, sötét témájú egylapos portfólió Gergo Emmert számára." />
-  <style>
-    :root {
-      --bg: #0b0f14;
-      --surface: #11161d;
-      --surface-2: #0f141a;
-      --text: #e6e7e9;
-      --muted: #b7beca;
-      --accent: #0A84FF; /* Apple blue */
-      --accent-2: #64D2FF; /* iOS cyan */
-      --border: #1b222c;
-      --ok: #34c759;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 20% 10%, #0c1218 0%, #0b0f14 35%, #06080c 100%);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    /* Container */
-    .container { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
-
-    /* Sticky nav */
-    header.navbar {
-      position: sticky; top: 0; z-index: 1000;
-      backdrop-filter: saturate(180%) blur(16px);
-      background: color-mix(in srgb, var(--surface) 70%, transparent);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-
-    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); }
-    .brand-mark {
-      width: 28px; height: 28px; border-radius: 9px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 6px 18px rgba(10,132,255,0.35);
-      position: relative;
-    }
-    .brand span { font-weight: 600; letter-spacing: 0.2px; }
-
-    nav ul { display: flex; gap: 18px; list-style: none; padding: 0; margin: 0; }
-    nav a {
-      color: var(--muted); text-decoration: none; padding: 8px 10px; border-radius: 8px;
-      transition: color .2s ease, background .2s ease;
-    }
-    nav a:hover { color: var(--text); background: var(--surface-2); }
-    nav a.active { color: var(--text); background: linear-gradient(180deg, #0d1320 0%, #0b1017 100%); border: 1px solid var(--border); }
-
-    /* Mobile menu */
-    .menu-btn { display: none; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); border-radius: 10px; padding: 8px 12px; }
-    @media (max-width: 820px) {
-      nav ul { display: none; position: absolute; right: 20px; top: 60px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 10px; box-shadow: 0 14px 40px rgba(0,0,0,0.45); }
-      nav ul.open { display: grid; gap: 4px; }
-      .menu-btn { display: inline-flex; align-items: center; gap: 6px; }
-    }
-
-    /* Scroll progress */
-    .progress { position: fixed; left: 0; top: 0; height: 2px; width: 0; z-index: 1100; background: linear-gradient(90deg, var(--accent), var(--accent-2)); box-shadow: 0 0 12px rgba(10,132,255,0.6); }
-
-    /* Hero */
-    .hero { padding: 72px 0 36px; }
-    .hero-card {
-      display: grid; gap: 16px; padding: 28px; border-radius: 18px;
-      background: linear-gradient(180deg, rgba(17,22,29,0.7), rgba(14,18,24,0.7));
-      border: 1px solid var(--border);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 30px 60px rgba(0,0,0,0.35);
-    }
-    .title { font-size: clamp(28px, 5vw, 44px); font-weight: 700; letter-spacing: -0.5px; }
-    .subtitle { font-size: clamp(16px, 2.6vw, 20px); color: var(--muted); }
-    .cta { display: inline-flex; align-items: center; gap: 10px; margin-top: 8px; padding: 10px 16px; border-radius: 12px; color: #061627; font-weight: 600; text-decoration: none; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 10px 30px rgba(10,132,255,0.35); }
-
-    /* Section */
-    section { scroll-margin-top: 84px; }
-    .section { padding: 28px 0 8px; }
-    .section h2 { font-size: 22px; letter-spacing: 0.2px; margin-bottom: 14px; }
-
-    /* Cards */
-    .grid { display: grid; gap: 12px; grid-template-columns: repeat(12, 1fr); }
-    .card {
-      grid-column: span 12; padding: 18px; border-radius: 16px; border: 1px solid var(--border);
-      background: linear-gradient(180deg, #121822 0%, #0f141b 100%);
-    }
-    .card h3 { margin: 0 0 8px; font-size: 18px; }
-    .card p { margin: 0; color: var(--muted); }
-
-    @media (min-width: 640px) { .card.half { grid-column: span 6; } }
-    @media (min-width: 940px) { .card.third { grid-column: span 4; } }
-
-    /* List */
-    .list { display: grid; gap: 8px; }
-
-    /* Footer */
-    footer { padding: 32px 0 60px; color: var(--muted); }
-    .foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid var(--border); padding-top: 16px; }
-    .links { display: flex; gap: 12px; }
-    .chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); text-decoration: none; }
-
-    /* Small details */
-    .tag { display: inline-block; padding: 4px 8px; border-radius: 999px; font-size: 12px; color: var(--text); background: rgba(100,210,255,0.12); border: 1px solid rgba(100,210,255,0.35); }
-    .muted { color: var(--muted); }
-    .divider { height: 1px; background: var(--border); margin: 8px 0 16px; }
-
-    /* Accessibility */
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      * { transition: none !important; animation: none !important; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portfólió — Gergo Emmert</title>
+<style>
+  :root{
+    --bg:#f7f8fa;
+    --card:#ffffff;
+    --muted:#5b6168;
+    --accent:#0ea5a4;
+    --radius:18px;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+  }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:#1b1d1f;
+  }
+  .nav{
+    position:sticky;top:12px;z-index:40;
+    display:flex;justify-content:center;gap:12px;
+    padding:10px 16px;margin:0 24px;
+    background:rgba(255,255,255,0.8);
+    backdrop-filter:blur(8px);
+    border-radius:999px;
+    border:1px solid #e5e7eb;
+  }
+  .nav a{
+    text-decoration:none;color:var(--muted);
+    padding:8px 14px;border-radius:999px;font-weight:600;font-size:14px;
+  }
+  .nav a.active,.nav a:hover{
+    background:var(--accent);color:white;
+  }
+  .container{max-width:980px;margin:34px auto;padding:28px;}
+  header{display:flex;gap:24px;align-items:center;margin-bottom:28px;}
+  .logo{width:96px;height:96px;border-radius:20px;object-fit:cover;}
+  h1{margin:0;font-size:24px;}
+  p.lead{margin:4px 0;color:var(--muted);}
+  section{
+    margin-top:26px;padding:22px;border-radius:var(--radius);
+    background:var(--card);border:1px solid #e5e7eb;
+  }
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .card{background:white;padding:16px;border-radius:14px;border:1px solid #e5e7eb;}
+  h2{margin:0 0 12px 0;}
+  footer{text-align:center;color:var(--muted);margin-top:16px;padding:18px;}
+  @media(max-width:820px){.grid{grid-template-columns:1fr;}}
+  .popup{
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    background:white;padding:20px;border-radius:16px;
+    border:1px solid #ddd;box-shadow:0 4px 20px rgba(0,0,0,0.15);
+    display:none;z-index:9999;
+  }
+  .popup button{margin-top:10px;padding:8px 12px;border-radius:8px;border:1px solid #ccc;background:#f7f7f7;}
+</style>
 </head>
 <body>
-  <div class="progress" id="progress"></div>
 
-  <header class="navbar">
-    <div class="container nav-inner">
-      <a href="#hero" class="brand" aria-label="Ugrás a kezdőlapra">
-        <div class="brand-mark" aria-hidden="true"></div>
-        <span>Gergo Emmert</span>
-      </a>
-      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">☰ Menü</button>
-      <nav>
-        <ul id="menu">
-          <li><a href="#rolam">Rólam</a></li>
-          <li><a href="#oktatas">Oktatás</a></li>
-          <li><a href="#tapasztalat">Tapasztalat</a></li>
-          <li><a href="#projektek">Projektek</a></li>
-          <li><a href="#kapcsolat">Kapcsolat</a></li>
-        </ul>
-      </nav>
+<div class="popup" id="idlePopup">
+  <p>Segíthetek valamiben?</p>
+  <button onclick="this.parentElement.style.display='none'">Bezár</button>
+</div>
+
+<nav class="nav">
+  <a href="#kapcsolat">Kapcsolat</a>
+  <a href="#rolam">Rólam</a>
+  <a href="#oktatas">Oktatás</a>
+  <a href="#tapasztalat">Tapasztalat</a>
+  <a href="#projektek">Projektek</a>
+</nav>
+
+<main class="container">
+  <header>
+    <img src="logo.jpg" class="logo" alt="Logo">
+    <div>
+      <h1>Gergo Emmert — Adat & Python fejlesztő</h1>
+      <p class="lead">BME BSc & MSc • Data Scientist @Magyar Telekom • Python fejlesztő @Lab49 • FXL társalapító</p>
     </div>
   </header>
 
-  <main id="hero" class="hero">
-    <div class="container hero-card">
-      <div class="title">Modern, letisztult portfólió</div>
-      <div class="subtitle">Sötét témájú, Apple-szerű egylapos oldal — smooth scroll, sticky navigáció, letisztult tipográfia.</div>
-      <div>
-        <a class="cta" href="#kapcsolat">Kapcsolatfelvétel</a>
+  <section id="kapcsolat">
+    <h2>Kapcsolat</h2>
+    <div class="grid">
+      <div class="card">
+        <p><strong>Email:</strong> gergo.emmert@example.com</p>
+      </div>
+      <div class="card">
+        <p><strong>Üzenet küldése</strong></p>
+        <form onsubmit="event.preventDefault();alert('Köszönöm! (demo)');" style="display:flex;flex-direction:column;gap:8px;">
+          <input placeholder="Név" style="padding:10px;border:1px solid #ccc;border-radius:10px;">
+          <input placeholder="Email" style="padding:10px;border:1px solid #ccc;border-radius:10px;">
+          <textarea rows="4" placeholder="Üzenet" style="padding:10px;border:1px solid #ccc;border-radius:10px;"></textarea>
+          <button style="padding:10px;border-radius:10px;border:1px solid #ccc;background:#f1f1f1;">Küldés</button>
+        </form>
       </div>
     </div>
+  </section>
 
-    <div class="container section" id="rolam">
-      <h2>Rólam</h2>
-      <div class="grid">
-        <article class="card">
-          <p>
-            Tanulmányaimat a <strong>Budapesti Műszaki és Gazdaságtudományi Egyetemen (BME)</strong> végeztem, ahol alapképzésen (BSc) és
-            mesterképzésen (MSc) is diplomát szereztem. Pályafutásom során <strong>adat­tudomány</strong> és <strong>Python</strong> fejlesztés területén dolgoztam,
-            nagyvállalati és fintech környezetben egyaránt.
-          </p>
-          <p class="muted">Fókusz: tiszta kód, adatvezérelt döntéstámogatás, felhasználóközpontú megoldások.</p>
-        </article>
-      </div>
-    </div>
+  <section id="rolam">
+    <h2>Rólam</h2>
+    <p>Adatvezérelt, Python fókuszú fejlesztő vagyok...</p>
+  </section>
 
-    <div class="container section" id="oktatas">
-      <h2>Oktatás</h2>
-      <div class="grid">
-        <article class="card half">
-          <h3>BME — Alapképzés (BSc)</h3>
-          <p class="muted">Mérnöki szemlélet, algoritmusok, statisztika, programozás.</p>
-        </article>
-        <article class="card half">
-          <h3>BME — Mesterképzés (MSc)</h3>
-          <p class="muted">Haladó adat­tudomány, gépi tanulás, rendszertervezés.</p>
-        </article>
-      </div>
-    </div>
+  <section id="oktatas">
+    <h2>Oktatás</h2>
+    <p>BME BSc + MSc</p>
+  </section>
 
-    <div class="container section" id="tapasztalat">
-      <h2>Tapasztalat</h2>
-      <div class="grid">
-        <article class="card third">
-          <h3>Magyar Telekom</h3>
-          <span class="tag">Data Scientist</span>
-          <div class="divider"></div>
-          <p class="muted">Adatvezérelt elemzés, modellezés és üzleti insightok vállalati környezetben.</p>
-        </article>
-        <article class="card third">
-          <h3>Lab49</h3>
-          <span class="tag">Python fejlesztő</span>
-          <div class="divider"></div>
-          <p class="muted">Fintech fejlesztések, teljesítményoptimalizált back-end komponensek.</p>
-        </article>
-        <article class="card third">
-          <h3>FXL</h3>
-          <span class="tag">Társalapító Pap Jánossal</span>
-          <div class="divider"></div>
-          <p class="muted">Fogalmi tervezés, termékstratégia és megvalósítás korai fázisban.</p>
-        </article>
-      </div>
-    </div>
+  <section id="tapasztalat">
+    <h2>Tapasztalat</h2>
+    <p>Magyar Telekom — Data Scientist<br>Lab49 — Python fejlesztő<br>FXL — társalapító</p>
+  </section>
 
-    <div class="container section" id="projektek">
-      <h2>Projektek</h2>
-      <div class="grid">
-        <article class="card">
-          <h3>FXL — Alapítói projekt</h3>
-          <p class="muted">Közös munka Pap Jánossal: adatvezérelt termékek és automatizációs megoldások. Fókusz: tiszta architektúra, skálázhatóság, magas felhasználói élmény.</p>
-        </article>
-        <article class="card">
-          <h3>Vállalati analitika</h3>
-          <p class="muted">Prediktív modellek és dashboardok kialakítása üzleti döntéstámogatásra.</p>
-        </article>
-        <article class="card">
-          <h3>Fintech back-end</h3>
-          <p class="muted">Python alapú szolgáltatások fejlesztése, integrációk és megbízható API-k.</p>
-        </article>
-      </div>
-    </div>
+  <section id="projektek">
+    <h2>Projektek</h2>
+    <p>Projektlista…</p>
+  </section>
 
-    <div class="container section" id="kapcsolat">
-      <h2>Kapcsolat</h2>
-      <div class="grid">
-        <article class="card">
-          <p>Nyitott vagyok új együttműködésekre és beszélgetésekre.</p>
-          <p class="muted">Írj e‑mailt, vagy keress LinkedInen.</p>
-          <div class="links" style="margin-top:12px;">
-            <!-- Megjegyzés: cseréld ki a példát a saját e-mail címedre -->
-            <a class="chip" id="copyEmail" href="mailto:your.email@example.com?subject=Kapcsolat%20%E2%80%94%20Portf%C3%B3li%C3%B3">📧 your.email@example.com</a>
-            <a class="chip" href="#" aria-label="LinkedIn profil (helyettesítsd saját linkkel)">in LinkedIn</a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </main>
+  <footer>© <span id="yr"></span> Gergo Emmert</footer>
+</main>
 
-  <footer>
-    <div class="container foot">
-      <small>© <span id="year"></span> Gergo Emmert — Sötét témájú, egylapos portfólió</small>
-      <div class="links">
-        <a class="chip" href="#rolam">Rólam</a>
-        <a class="chip" href="#oktatas">Oktatás</a>
-        <a class="chip" href="#tapasztalat">Tapasztalat</a>
-        <a class="chip" href="#projektek">Projektek</a>
-        <a class="chip" href="#kapcsolat">Kapcsolat</a>
-      </div>
-    </div>
-  </footer>
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
 
-  <script>
-    // Év a láblécben
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Menü nyitás mobilon
-    const menuBtn = document.getElementById('menuBtn');
-    const menu = document.getElementById('menu');
-    menuBtn?.addEventListener('click', () => {
-      const open = menu.classList.toggle('open');
-      menuBtn.setAttribute('aria-expanded', String(open));
-    });
-
-    // Aktív menüpont kiemelése az adott szekció szerint
-    const sections = ['rolam','oktatas','tapasztalat','projektek','kapcsolat'].map(id => document.getElementById(id));
-    const links = Array.from(menu.querySelectorAll('a'));
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const id = entry.target.id;
-        const link = links.find(a => a.getAttribute('href') === '#' + id);
-        if (!link) return;
-        if (entry.isIntersecting) {
-          links.forEach(l => l.classList.remove('active'));
-          link.classList.add('active');
-        }
-      });
-    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0.01 });
-
-    sections.forEach(sec => sec && io.observe(sec));
-
-    // Görgetési előrehaladás jelző
-    const progress = document.getElementById('progress');
-    const onScroll = () => {
-      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      const height = (document.documentElement.scrollHeight - document.documentElement.clientHeight);
-      const pct = height > 0 ? (scrollTop / height) * 100 : 0;
-      progress.style.width = pct + '%';
-    };
-    document.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-
-    // E-mail cím másolása vágólapra
-    const copyEmail = document.getElementById('copyEmail');
-    copyEmail?.addEventListener('click', (e) => {
-      const email = 'your.email@example.com'; // Cseréld ki saját címedre
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(email).then(() => {
-          copyEmail.textContent = '📧 Másolva: ' + email;
-          setTimeout(() => copyEmail.textContent = '📧 ' + email, 1800);
-        });
+  const links = document.querySelectorAll('.nav a');
+  function onScroll(){
+    let pos = window.scrollY + 150;
+    links.forEach(l=>{
+      let sec = document.querySelector(l.getAttribute('href'));
+      if(sec && sec.offsetTop <= pos && sec.offsetTop + sec.offsetHeight > pos){
+        links.forEach(x=>x.classList.remove('active'));
+        l.classList.add('active');
       }
     });
-  </script>
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  links.forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+    });
+  });
+
+  let idleTimer;
+  function resetIdle(){
+    clearTimeout(idleTimer);
+    document.getElementById('idlePopup').style.display='none';
+    idleTimer=setTimeout(()=>{document.getElementById('idlePopup').style.display='block';},3000);
+  }
+  window.addEventListener('mousemove', resetIdle);
+  window.addEventListener('keydown', resetIdle);
+  resetIdle();
+</script>
+
 </body>
 </html>
